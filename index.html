@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HR Pro SaaS</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            colors: {
+              primary: 'rgb(var(--color-primary) / <alpha-value>)',
+              'primary-dark-hover': 'rgb(var(--color-primary-dark-hover) / <alpha-value>)',
+              'primary-light-hover': 'rgb(var(--color-primary-light-hover) / <alpha-value>)',
+              secondary: 'rgb(var(--color-secondary) / <alpha-value>)',
+              'secondary-dark-hover': 'rgb(var(--color-secondary-dark-hover) / <alpha-value>)',
+              background: 'rgb(var(--color-background) / <alpha-value>)',
+              surface: 'rgb(var(--color-surface) / <alpha-value>)',
+              'on-surface': 'rgb(var(--color-on-surface) / <alpha-value>)',
+              'on-surface-variant': 'rgb(var(--color-on-surface-variant) / <alpha-value>)',
+              error: 'rgb(var(--color-error) / <alpha-value>)',
+              alert: 'rgb(var(--color-alert) / <alpha-value>)',
+              success: 'rgb(var(--color-success) / <alpha-value>)',
+              info: 'rgb(var(--color-info) / <alpha-value>)',
+              'neutral-border': 'rgb(var(--color-neutral-border) / <alpha-value>)',
+              'table-row-striped': 'rgb(var(--color-table-row-striped) / <alpha-value>)',
+            },
+            fontFamily: {
+              sans: ['Poppins', 'sans-serif'],
+            },
+            transitionProperty: {
+              'width': 'width',
+            }
+          },
+        },
+      }
+    </script>
+    <style>
+      :root {
+        --color-primary: 79 70 229;
+        --color-secondary: 16 185 129;
+        --color-background: 15 23 42;
+        --color-surface: 30 41 59;
+        --color-on-surface: 226 232 240;
+        --color-on-surface-variant: 148 163 184;
+      }
+      .no-animations *,
+      .no-animations *::before,
+      .no-animations *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+      .high-contrast {
+        --color-primary: 29 78 216; /* blue-700 */
+        --color-secondary: 29 78 216; /* blue-700 */
+        --color-background: 255 255 255; /* white */
+        --color-surface: 255 255 255; /* white */
+        --color-on-surface: 0 0 0; /* black */
+        --color-on-surface-variant: 29 78 216; /* blue-700 */
+      }
+      .high-contrast body,
+      .high-contrast .bg-surface,
+      .high-contrast .bg-background {
+        background-color: white !important;
+        color: black !important;
+      }
+      .high-contrast .text-on-surface,
+      .high-contrast .text-on-surface-variant,
+      .high-contrast .text-white,
+      .high-contrast .text-slate-400,
+      .high-contrast .text-slate-500 {
+        color: black !important;
+      }
+      .high-contrast .text-primary,
+      .high-contrast .text-secondary,
+      .high-contrast .text-blue-400 {
+        color: rgb(var(--color-primary)) !important;
+      }
+      .high-contrast .border-slate-700,
+      .high-contrast .border-slate-600 {
+        border-color: #000 !important;
+      }
+       .high-contrast .bg-slate-600,
+      .high-contrast .bg-slate-700,
+      .high-contrast .bg-slate-800,
+      .high-contrast .bg-slate-800\/50,
+      .high-contrast .hover\:bg-slate-700:hover,
+      .high-contrast .hover\:bg-slate-800:hover {
+        background-color: #e5e7eb !important; /* gray-200 */
+      }
+      .high-contrast .bg-primary,
+      .high-contrast .bg-secondary {
+         background-color: rgb(var(--color-primary)) !important;
+         color: white !important;
+      }
+      .high-contrast nav .text-primary {
+         color: white !important;
+      }
+      .high-contrast nav .border-primary {
+         border-color: rgb(var(--color-primary)) !important;
+      }
+    </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script type="importmap">
+{
+  "imports": {
+    "react/": "https://aistudiocdn.com/react@^19.1.1/",
+    "react": "https://aistudiocdn.com/react@^19.1.1",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.1.1/",
+    "recharts": "https://aistudiocdn.com/recharts@^3.2.1",
+    "react-router-dom": "https://aistudiocdn.com/react-router-dom@^7.9.1"
+  }
+}
+</script>
+</head>
+  <body class="bg-background">
+    <div id="root"></div>
+  </body>
+</html>
