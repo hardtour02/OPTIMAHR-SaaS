@@ -1,9 +1,7 @@
-
 import React, { useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { api } from '../services/api';
-import { User } from '../types';
 import { useCustomize } from '../contexts/CustomizeContext';
 
 const Login: React.FC = () => {

@@ -1,4 +1,3 @@
-
 // FIX: Added 'ReportChartData' to the import list to resolve a 'Cannot find name' error.
 // FIX: Added missing types for new mock data and API functions.
 import { Employee, Company, SystemLog, NewEmployee, FormFieldOption, User, DashboardConfig, CustomFieldDef, Notification, SalaryConfig, Currency, ConversionRate, CardConfig, FilterConfig, ChartConfig, InventoryCategory, InventoryItem, Loan, LoanConfig, Accessory, InventoryConfig, InventoryMovementLog, DashboardConfigs, ReportDefinition, ReportData, ContractType, ReportCategoryKey, ReportSettings, CustomizeSettings, AuthenticatedUser, Role, Permission, Document, DashboardStats, ReportChartType, ReportVisibility, LeavePolicy, LeaveBalance, LeaveRequest, ReportChartData, OrgNode as OrgNodeType, PendingChange, PendingChangeRequest, ChecklistTemplate, AssignedChecklist } from '../types';
@@ -1167,7 +1166,48 @@ export const api = {
       if(index > -1) MOCK_NOTIFICATIONS[index].status = 'read'; // Unarchive to read
       return simulateApiCall({success: true});
   },
-  checkAndCreateBirthdayNotifications: () => { /* Logic to create notifications */ return Promise.resolve(); },
+  checkAndCreateBirthdayNotifications: () => {
+    const today = new Date();
+    const currentMonth = today.getMonth();
+    const currentDay = today.getDate();
+    const currentYear = today.getFullYear();
+
+    MOCK_EMPLOYEES.forEach(employee => {
+      if (employee.status !== 'active') return;
+
+      const birthDate = new Date(employee.birthDate);
+      // Adjust for timezone offset to prevent off-by-one day errors when comparing dates.
+      const userTimezoneOffset = birthDate.getTimezoneOffset() * 60000;
+      const adjustedBirthDate = new Date(birthDate.getTime() + userTimezoneOffset);
+
+      const birthMonth = adjustedBirthDate.getMonth();
+      const birthDay = adjustedBirthDate.getDate();
+
+      if (birthMonth === currentMonth && birthDay === currentDay) {
+        // Check if a notification for this employee's birthday has already been created this year.
+        const notificationExists = MOCK_NOTIFICATIONS.some(
+          n =>
+            n.type === 'birthday' &&
+            n.referenceId === employee.id &&
+            new Date(n.timestamp).getFullYear() === currentYear
+        );
+
+        if (!notificationExists) {
+          const newNotification: Notification = {
+            id: `notif_bday_${employee.id}_${currentYear}`,
+            type: 'birthday',
+            referenceId: employee.id,
+            message: `¡Hoy es el cumpleaños de ${employee.firstName} ${employee.lastName}!`,
+            status: 'unread',
+            timestamp: new Date().toISOString(),
+          };
+          MOCK_NOTIFICATIONS.push(newNotification);
+        }
+      }
+    });
+
+    return Promise.resolve();
+  },
   checkAndCreateLoanNotifications: () => { /* Logic to create notifications */ return Promise.resolve(); },
   checkStockLevels: () => { /* Logic to create notifications */ return Promise.resolve(); },
   checkAndCreateContractNotifications: () => { /* Logic to create notifications */ return Promise.resolve(); },
