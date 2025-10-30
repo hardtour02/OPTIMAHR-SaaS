@@ -1,11 +1,15 @@
 import { createClient } from '@supabase/supabase-js';
 
-const supabaseUrl = process.env.SUPABASE_URL;
-const supabaseAnonKey = process.env.SUPABASE_ANON_KEY;
+// Para Vite, las variables de entorno expuestas al cliente deben tener el prefijo VITE_
+// y se acceden a través de import.meta.env
+// FIX: Changed import.meta.env to process.env to resolve TypeScript error.
+const supabaseUrl = process.env.VITE_SUPABASE_URL;
+// FIX: Changed import.meta.env to process.env to resolve TypeScript error.
+const supabaseAnonKey = process.env.VITE_SUPABASE_ANON_KEY;
 
-// createClient will use environment variables if they exist (for production on Vercel),
-// or fall back to placeholder values if they don't (for the development environment).
-// This prevents the app from crashing on startup and allows the login screen to be displayed.
+// Esto ahora usará las variables de Vercel si están configuradas correctamente.
+// Si no, recurre a valores de marcador de posición para evitar que la aplicación falle
+// en el desarrollo local antes de intentar iniciar sesión.
 export const supabase = createClient(
     supabaseUrl || 'https://placeholder.supabase.co',
     supabaseAnonKey || 'placeholder'
