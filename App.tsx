@@ -1,8 +1,6 @@
 
 
-
-
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { HashRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import { CustomizeProvider, useCustomize } from './contexts/CustomizeContext';
@@ -24,6 +22,9 @@ import Inventory from './pages/Inventory';
 import Notifications from './pages/Notifications';
 import Documents from './pages/Documents';
 import Absences from './pages/Absences';
+import Organization from './pages/Organization';
+import MyProfile from './pages/MyProfile';
+
 
 const hexToRgb = (hex: string) => {
   const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
@@ -120,9 +121,9 @@ const App: React.FC = () => {
 };
 
 const Main: React.FC = () => {
-  const { isAuthenticated } = useAuth();
-  const { settings, loading } = useCustomize();
-
+  const { loading: authLoading } = useAuth();
+  const { settings, loading: customizeLoading } = useCustomize();
+  
   useEffect(() => {
     if (settings) {
       const root = document.documentElement;
@@ -154,7 +155,6 @@ const Main: React.FC = () => {
       }
       
       for (const [key, value] of Object.entries(selectedPalette)) {
-          // FIX: Argument of type 'unknown' is not assignable to parameter of type 'string'.
           if(value) root.style.setProperty(key, value as string);
       }
       
@@ -182,45 +182,42 @@ const Main: React.FC = () => {
     }
   }, [settings]);
 
-  // Prevent flash of unstyled content while settings are loading
-  if (loading && !settings) {
+  // Prevent flash of unstyled content while settings are loading for the first time
+  if (customizeLoading && !settings) {
     return null; 
   }
 
   return (
     <>
       <Routes>
-        <Route path="/login" element={!isAuthenticated ? <Login /> : <Navigate to="/" />} />
-        <Route path="/*" element={isAuthenticated ? <ProtectedRoutes /> : <Navigate to="/login" />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/*" element={
+            <Layout>
+                <Routes>
+                    <Route path="/" element={<Dashboard />} />
+                    <Route path="/employees" element={<Employees />} />
+                    <Route path="/employees/new" element={<AddEmployee />} />
+                    <Route path="/employee/:id" element={<EmployeeProfile />} />
+                    <Route path="/employee/:id/edit" element={<EditEmployee />} />
+                    <Route path="/inventory" element={<Inventory />} />
+                    <Route path="/loans" element={<Loans />} />
+                    <Route path="/absences" element={<Absences />} />
+                    <Route path="/birthdays" element={<Birthdays />} />
+                    <Route path="/reports" element={<Reports />} />
+                    <Route path="/history" element={<History />} />
+                    <Route path="/notifications" element={<Notifications />} />
+                    <Route path="/documents" element={<Documents />} />
+                    <Route path="/settings" element={<Settings />} />
+                    <Route path="/organization" element={<Organization />} />
+                    <Route path="/my-profile" element={<MyProfile />} />
+                    <Route path="*" element={<Navigate to="/" />} />
+                </Routes>
+            </Layout>
+        } />
       </Routes>
       <ToastContainer />
     </>
   );
 };
-
-const ProtectedRoutes: React.FC = () => {
-  return (
-    <Layout>
-      <Routes>
-        <Route path="/" element={<Dashboard />} />
-        <Route path="/employees" element={<Employees />} />
-        <Route path="/employees/new" element={<AddEmployee />} />
-        <Route path="/employee/:id" element={<EmployeeProfile />} />
-        <Route path="/employee/:id/edit" element={<EditEmployee />} />
-        <Route path="/inventory" element={<Inventory />} />
-        <Route path="/loans" element={<Loans />} />
-        <Route path="/absences" element={<Absences />} />
-        <Route path="/birthdays" element={<Birthdays />} />
-        <Route path="/reports" element={<Reports />} />
-        <Route path="/history" element={<History />} />
-        <Route path="/notifications" element={<Notifications />} />
-        <Route path="/documents" element={<Documents />} />
-        <Route path="/settings" element={<Settings />} />
-        <Route path="*" element={<Navigate to="/" />} />
-      </Routes>
-    </Layout>
-  );
-};
-
 
 export default App;

@@ -1,7 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
-import { api } from '../services/api';
 import { useCustomize } from '../contexts/CustomizeContext';
 
 const Login: React.FC = () => {
@@ -9,21 +8,25 @@ const Login: React.FC = () => {
     const [password, setPassword] = useState('password');
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
-    const { login } = useAuth();
+    const { login, isAuthenticated } = useAuth();
     const { settings } = useCustomize();
     const navigate = useNavigate();
+
+    useEffect(() => {
+        if (isAuthenticated) {
+            navigate('/');
+        }
+    }, [isAuthenticated, navigate]);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setError('');
         setLoading(true);
         try {
-            const response = await api.login(email, password);
-            // FIX: The `response` object is a discriminated union. By checking for the failure case `!response.success` first, TypeScript can correctly narrow the type in the `if` block, allowing safe access to the `message` property on failure.
-            if (!response.success) {
-                setError(response.message);
+            const { error: authError } = await login({ email, password });
+            if (authError) {
+                setError(authError.message === 'Invalid login credentials' ? 'Credenciales inválidas.' : authError.message);
             } else {
-                login(response.user);
                 navigate('/');
             }
         } catch (err) {
@@ -38,7 +41,7 @@ const Login: React.FC = () => {
             <div className="w-full max-w-md p-8 space-y-8 bg-surface rounded-xl shadow-lg border border-neutral-border">
                 <div className="text-center">
                     <h1 className="text-4xl font-bold text-on-surface tracking-wider">OPTIMA<span className="font-light text-primary">HR</span></h1>
-                    <p className="mt-2 text-on-surface-variant">{settings?.branding.loginWelcomeMessage || 'Inicia sesión para continuar'}</p>
+                    <p className="mt-2 text-on-surface-variant">{settings?.branding?.loginWelcomeMessage || 'Inicia sesión para continuar'}</p>
                 </div>
                 <form className="space-y-6" onSubmit={handleSubmit}>
                     <div>

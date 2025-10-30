@@ -8,8 +8,9 @@ import { useAuth } from '../contexts/AuthContext';
 import { useFormatting } from '../hooks/useFormatting';
 import AbsenceHistory from '../components/employees/AbsenceHistory';
 import LeaveBalanceCards from '../components/absences/LeaveBalanceCards';
+import ChecklistManager from '../components/employees/ChecklistManager';
 
-type Tab = 'personal' | 'professional' | 'contact' | 'documents' | 'absences';
+type Tab = 'personal' | 'professional' | 'contact' | 'documents' | 'absences' | 'checklists';
 
 const InfoItem: React.FC<{ label: string; value: string | number | undefined }> = ({ label, value }) => (
     <div className="grid grid-cols-2 py-2">
@@ -88,6 +89,7 @@ const EmployeeProfile: React.FC = () => {
         { id: 'professional', label: 'Información Profesional' },
         { id: 'contact', label: 'Información de Contacto' },
         { id: 'absences', label: 'Historial de Ausencias' },
+        { id: 'checklists', label: 'Checklists', permission: 'checklists:assign' },
         { id: 'documents', label: 'Documentos' },
     ];
     
@@ -162,6 +164,8 @@ const EmployeeProfile: React.FC = () => {
                         <AbsenceHistory employeeId={employee.id} />
                     </div>
                 );
+            case 'checklists':
+                return <ChecklistManager employeeId={employee.id} />;
             case 'documents':
                  return (
                     <DocumentManager 

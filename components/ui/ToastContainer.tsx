@@ -6,7 +6,7 @@ import Toast from './Toast';
 const ToastContainer: React.FC = () => {
     const { toasts, removeToast } = useToast();
     const { settings } = useCustomize();
-    const position = settings?.notifications.position || 'top-right';
+    const position = settings?.notifications?.position || 'top-right';
 
     const getPositionClass = () => {
         switch (position) {
@@ -21,12 +21,12 @@ const ToastContainer: React.FC = () => {
     
     // Play sound effect
     useEffect(() => {
-        if (toasts.length > 0 && settings?.notifications.soundEnabled) {
+        if (toasts.length > 0 && settings?.notifications?.soundEnabled) {
             // In a real app, you'd have different audio files.
             // For now, we'll just log to the console to simulate the effect.
-            console.log(`Playing notification sound: ${settings.notifications.soundName}`);
+            console.log(`Playing notification sound: ${settings?.notifications?.soundName}`);
         }
-    }, [toasts, settings?.notifications.soundEnabled, settings?.notifications.soundName]);
+    }, [toasts, settings?.notifications?.soundEnabled, settings?.notifications?.soundName]);
 
 
     return (

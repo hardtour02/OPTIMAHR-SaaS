@@ -14,6 +14,7 @@ export interface NavLinkInfo {
 export const NAV_LINKS: NavLinkInfo[] = [
   { name: 'Dashboard', path: '/', icon: <HomeIcon /> },
   { name: 'Empleados', path: '/employees', icon: <UsersIcon />, permission: 'employees:read' },
+  { name: 'Organigrama', path: '/organization', icon: <SitemapIcon />, permission: 'employees:read' },
   { name: 'Inventario', path: '/inventory', icon: <InventoryIcon />, permission: 'inventory:read' },
   { name: 'Préstamos', path: '/loans', icon: <KeyIcon />, permission: 'loans:read' },
   { name: 'Ausencias', path: '/absences', icon: <CalendarIcon />, permission: 'employees:read' },
@@ -54,6 +55,14 @@ function UsersIcon() {
             <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M15 21a6 6 0 00-9-5.197M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
         </svg>
     );
+}
+
+function SitemapIcon() {
+    return (
+        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M8 4a4 4 0 00-4 4v1.253a4 4 0 108 0V8a4 4 0 00-4-4zM8 12a4 4 0 100 8 4 4 0 000-8zM16 4a4 4 0 100 8 4 4 0 000-8zM12 20a4 4 0 118 0h-8z" />
+        </svg>
+    )
 }
 
 function InventoryIcon() {

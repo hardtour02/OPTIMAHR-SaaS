@@ -61,7 +61,7 @@ const Sidebar: React.FC = () => {
         </button>
         {isFooterVisible && !isCollapsed && (
             <div className="text-xs text-white/60 mt-4 text-center">
-                <p>{settings?.branding.footerText || '© 2023 HR Pro SaaS. Todos los derechos reservados.'}</p>
+                <p>{settings?.branding?.footerText || '© 2023 HR Pro SaaS. Todos los derechos reservados.'}</p>
             </div>
         )}
       </div>
